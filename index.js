@@ -31,7 +31,7 @@ async function run () {
             res.send(collections);
         });
 
-        app.get('/vehicleList/:id', async(req, res) => {
+        app.get('/vehicle/:id', async(req, res) => {
             const id = req.params.id;
             const query = {_id: ObjectId(id)};
             const collection = await vehicleCollection.findOne(query);
