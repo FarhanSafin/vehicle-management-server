@@ -36,9 +36,26 @@ async function run () {
             const query = {_id: ObjectId(id)};
             const collection = await vehicleCollection.findOne(query);
             res.send(collection);
+        });
+
+        app.patch('/vehicle/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await vehicleCollection.updateOne(
+                query,
+                { $set: { "quantity": 100 },
+                  $currentDate: { lastModified: true } })
+            res.send(result);
         })
 
     }
+
+
+
+
+
+
+
     finally{
 
     }
