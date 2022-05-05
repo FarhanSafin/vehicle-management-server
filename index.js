@@ -42,6 +42,20 @@ async function run () {
                 { $set: { "quantity": quantity },
                   $currentDate: { lastModified: true } })
             res.send(result);
+        });
+
+        app.post('/addvehicle' ,async(req, res) => {
+            const newVehicle = req.body;
+            const result = await vehicleCollection.insertOne(newVehicle);
+            res.send(result);
+        })
+
+
+        app.delete('/vehicle/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await vehicleCollection.deleteOne(query);
+            res.send(result);
         })
 
     }
