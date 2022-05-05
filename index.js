@@ -39,11 +39,14 @@ async function run () {
         });
 
         app.patch('/vehicle/:id', async(req, res) => {
+            const quantity = req.body.quantity;
+            console.log(quantity);
             const id = req.params.id;
             const query = {_id: ObjectId(id)};
             const result = await vehicleCollection.updateOne(
-                query,
-                { $set: { "quantity": 100 },
+                query, 
+
+                { $set: { "quantity": quantity },
                   $currentDate: { lastModified: true } })
             res.send(result);
         })
