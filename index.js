@@ -9,15 +9,19 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+//mongodb connection parameters
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.a8ht1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 
-
+//api
 async function run () {
     try{
+        //connection to database and collection
         await client.connect();
         const vehicleCollection = client.db('vehicleList').collection('vehicle');
+
+        //get api
 
         app.get('/vehicleList', async (req, res) => {
             const query = {};
@@ -41,6 +45,8 @@ async function run () {
             res.send(collections);
         });
 
+        //patch api
+
         app.patch('/vehicle/:id', async(req, res) => {
             const quantity = req.body.quantity;
             const id = req.params.id;
@@ -52,12 +58,17 @@ async function run () {
             res.send(result);
         });
 
+
+        //post api
+
         app.post('/addvehicle' ,async(req, res) => {
             const newVehicle = req.body;
             const result = await vehicleCollection.insertOne(newVehicle);
             res.send(result);
         })
 
+
+        //delete api
 
         app.delete('/vehicle/:id', async(req, res) => {
             const id = req.params.id;
@@ -81,7 +92,7 @@ app.get('/', (req, res) => {
     res.send('Server Running');
 });
 
-
+//listening to the server port
 app.listen(port, () => {
     console.log("Listen", port);
 })
