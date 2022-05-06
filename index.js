@@ -33,6 +33,14 @@ async function run () {
             res.send(collection);
         });
 
+        app.get('/myItems', async (req, res) => {
+            const search = req.query.email;
+            const query = {email:  search };
+            const cursor = vehicleCollection.find(query);
+            const collections = await cursor.toArray();
+            res.send(collections);
+        });
+
         app.patch('/vehicle/:id', async(req, res) => {
             const quantity = req.body.quantity;
             const id = req.params.id;
